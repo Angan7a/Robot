@@ -1,5 +1,5 @@
-#define AxIN1 PE4
-#define AxIN2 PE5
+#define AxIN1 PB4
+#define AxIN2 PB5
 #define BxIN1 PC4
 #define BxIN2 PC5
 
@@ -11,6 +11,7 @@
 
 int intenso = 500;
 int delta = 100;
+bool state;
 
 void setup() {                
       // initialise GPIO
@@ -52,20 +53,35 @@ void loop() {
         digitalRead(B) == HIGH)
     {
         //Right
-        digitalWrite(AxIN1, 0);
-        analogWrite(AxIN2, intenso);
-        digitalWrite(BxIN1, 1);
-        digitalWrite(BxIN2, 1);
-
+        if (state == HIGH)
+        {
+            analogWrite(AxIN1, intenso - delta);
+            digitalWrite(AxIN2, 0);
+            analogWrite(BxIN1, intenso + delta);
+            digitalWrite(BxIN2, 0);
+        } else {
+            digitalWrite(AxIN1, 0);
+            analogWrite(AxIN2, intenso + delta);
+            digitalWrite(BxIN1, 0);
+            analogWrite(BxIN2, intenso - delta);
+        }
     } else if (digitalRead(B2) == HIGH &&
         digitalRead(B1) == HIGH &&
         digitalRead(B) == LOW)
     {
         //Left
-        digitalWrite(AxIN1, 1);
-        digitalWrite(AxIN2, 1);
-        digitalWrite(BxIN1, 0);
-        analogWrite(BxIN2, intenso);
+        if (state == HIGH)
+        {
+            analogWrite(AxIN1, intenso + delta);
+            digitalWrite(AxIN2, 0);
+            analogWrite(BxIN1, intenso - delta);
+            digitalWrite(BxIN2, 0);
+        } else {
+            digitalWrite(AxIN1, 0);
+            analogWrite(AxIN2, intenso - delta);
+            digitalWrite(BxIN1, 0);
+            analogWrite(BxIN2, intenso + delta);
+        }
     } else if (digitalRead(B2) == HIGH &&
         digitalRead(B1) == LOW &&
         digitalRead(B) == HIGH)
@@ -75,6 +91,7 @@ void loop() {
         analogWrite(AxIN2, intenso);
         digitalWrite(BxIN1, 0);
         analogWrite(BxIN2, intenso);
+        state = LOW;
     } else if (digitalRead(B2) == HIGH &&
         digitalRead(B1) == LOW &&
         digitalRead(B) == LOW)
@@ -84,6 +101,7 @@ void loop() {
         digitalWrite(AxIN2, 0);
         analogWrite(BxIN1, intenso);
         digitalWrite(BxIN2, 0);
+        state = HIGH;
     }
     delay(1000);
 }
