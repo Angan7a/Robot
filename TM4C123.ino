@@ -11,7 +11,7 @@
 
 int intenso = 500;
 int delta = 100;
-bool state;
+bool state = HIGH;
 
 void setup() {                
       // initialise GPIO
@@ -21,9 +21,9 @@ void setup() {
      pinMode(BxIN2, OUTPUT);     
      pinMode(M, OUTPUT);     
      digitalWrite(M, LOW);
-     pinMode(B, INPUT_PULLUP);
-     pinMode(B1, INPUT_PULLUP);
-     pinMode(B2, INPUT_PULLUP);
+     pinMode(B, INPUT);
+     pinMode(B1, INPUT);
+     pinMode(B2, INPUT);
 }
 
 void loop() {
@@ -104,5 +104,10 @@ void loop() {
         state = HIGH;
     }
     delay(1000);
+    //stop
+    digitalWrite(AxIN1, 1);
+    digitalWrite(AxIN2, 1);
+    digitalWrite(BxIN1, 1);
+    digitalWrite(BxIN2, 1);
 }
 
