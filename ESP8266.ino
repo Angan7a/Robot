@@ -22,12 +22,12 @@ int b0 = 5;
 
 void setup(void){
   //the HTML of the web page
- page += "<!DOCTYPE HTML>";
+  page = "<!DOCTYPE HTML>";
  page += "<html>";
  page += "<head>";
  page += "<style>";
  page += ".button {";
- page += "     background-color: #4CAF50; /* Green */";
+ page += "     background-color: #4CAF50;";
  page += "     border: none;";
  page += "     color: white;";
  page += "     padding: 60px 128px;";
@@ -38,18 +38,17 @@ void setup(void){
  page += "     margin: 4px 2px;";
  page += "    cursor: pointer;";
  page += "}";
- page += ".button1 {background-color: #008CBA;} /* Blue */";
- page += ".button2 {background-color: #555555;} /* Black */;
  page += ".button3 {background-color: #f44336;} /* Red */";
+ page += ".button4 {background-color: #f08CBA;} /* Blue */";
  page += "</style>";
  page += "</head>";
  page += "<body>";
 
  page += "<h1>Simple NodeMCU Web Server</h1>";
- page += "<p><a class=\"button2\" href=\"LEDOn\"><button>ON</button></a>&nbsp;<a class=\"button2\" href=\"LEDOff\"><button>OFF</button></a></p>";
- page = "<p><a class=\"button\" href=\"Drive\"><button>Drive</button></a>&nbsp;<a class=\"button\" href=\"Reverse\"><button>Reverse</button></a>&nbsp;<a class=\"button button3\" href=\"Stop\"><button>Stop</button></a></p>";
- page = "<p><a class=\"button1\" href=\"Faster\"><button>Faster</button></a>&nbsp;<a class=\"button1\" href=\"Slower\"><button>Slower</button></a></p>";
- page = "<p><a class=\"button\"href=\"Left\"><button>Left</button></a>&nbsp;<a class=\"button\" href=\"Right\"><button>Right</button></a></p>";
+ page += "<p><a class=\"button4\" href=\"LEDOn\"><button>ON</button></a>&nbsp;<a class=\"button4\" href=\"LEDOff\"><button>OFF</button></a></p>";
+ page += "<p><a class=\"button\" href=\"Drive\"><button>Drive</button></a>&nbsp;<a class=\"button\" href=\"Reverse\"><button>Reverse</button></a>&nbsp;<a class=\"button button3\" href=\"Stop\"><button>Stop</button></a></p>";
+ page += "<p><a class=\"button\" href=\"Faster\"><button>Faster</button></a>&nbsp;<a class=\"button\" href=\"Slower\"><button>Slower</button></a></p>";
+ page += "<p><a class=\"button\"href=\"Left\"><button>Left</button></a>&nbsp;<a class=\"button\" href=\"Right\"><button>Right</button></a></p>";
 
   //configure GPIO
   pinMode(b2, OUTPUT);
@@ -128,7 +127,7 @@ analogWrite(ledPin, 1010);
     delay(1000);
   });
   server.on("/LEDOn", [](){
-    erver.send(200, "text/html", page);
+    server.send(200, "text/html", page);
     digitalWrite(ledR, HIGH);
     delay(1000);
   });
@@ -143,3 +142,4 @@ analogWrite(ledPin, 1010);
 void loop(void){
   server.handleClient();
 }
+
