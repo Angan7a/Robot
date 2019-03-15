@@ -1,5 +1,6 @@
 #include <Servo.h>
 
+
 #define ServoPin 26 // PD3 servo
 
 #define Trig 5 // PE4, distance sensor
@@ -15,12 +16,13 @@
 #define B1 9 // PA6  -> pin 14 on ESP8266, communication
 #define B2 10 // PA7  -> pin 16 on ESP8266, communication
 
-int speed = 500;
+int speed = 300;
 bool forward = HIGH;
 Servo servo;
 int pos = 90;   
 
-void setup() {                
+void setup() {         
+    //Serial.begin(9600);       
       // initialise GPIO
      pinMode(AxIN1, OUTPUT);     
      pinMode(AxIN2, OUTPUT);     
@@ -39,6 +41,9 @@ void setup() {
 
 void loop() {
     controlByRobot();
+    //Serial.println("Dystance:");
+    //Serial.println(distance());
+ //   delay(500);
 }
 
 
@@ -69,11 +74,11 @@ void left(int time = 500)
     {
         analogWrite(AxIN1, speed );
         digitalWrite(AxIN2, 0);
-        digitalWrite(1);
-        digitalWrite(1);
+        digitalWrite(BxIN1, 1);
+        digitalWrite(BxIN2, 1);
     } else {
-        digitalWrite(1);
-        digitalWrite(1);
+        digitalWrite(AxIN1, 1);
+        digitalWrite(AxIN2, 1);
         digitalWrite(BxIN1, 0);
         analogWrite(BxIN2, speed);
     }
@@ -83,22 +88,22 @@ void right(int time = 500)
 {
     if (forward == HIGH)
     {
-        digitalWrite(1);
-        digitalWrite(1);
+        digitalWrite(AxIN1,1);
+        digitalWrite(AxIN2, 1);
         analogWrite(BxIN1, speed);
         digitalWrite(BxIN2, 0);
     } else {
         digitalWrite(AxIN1, 0);
         analogWrite(AxIN2, speed);
-        digitalWrite(1);
-        digitalWrite(1);
+        digitalWrite(BxIN1, 1);
+        digitalWrite(BxIN2, 1);
     }
     delay(time);
 }
 void clockwise(int time)
 {
-    digitalWrite(1);
-    digitalWrite(1);
+    digitalWrite(AxIN1, 1);
+    digitalWrite(AxIN2, 1);
     digitalWrite(BxIN1, 0);
     analogWrite(BxIN2, speed);
     delay(time);
@@ -107,8 +112,8 @@ void clockwise(int time)
 
 void cClockwise(int time)
 {
-    digitalWrite(1);
-    digitalWrite(1);
+    digitalWrite(AxIN1,1);
+    digitalWrite(AxIN1,1);
     analogWrite(BxIN1, speed);
     digitalWrite(BxIN2, 0);
     delay(time);
@@ -183,11 +188,11 @@ void controlByWiFi(void)
             left();
         } else if (b2 == HIGH && b1 == LOW && b0 == HIGH)
         {
-            revers(speed);
+            reverse();
             forward = LOW;
         } else if (b2 == HIGH && b1 == LOW && b0 == LOW)
         {
-            drive(speed);
+            drive();
             forward = HIGH;
         }
         stop();
@@ -195,18 +200,31 @@ void controlByWiFi(void)
 }
 void controlByRobot(void)
 {
+  int d = 500;
     while(1)
     {
-        do
-        {
-            stop();
-            reverse();
-            delay(100);
-            clockwise(500);
+       // do
+       // {
+           // stop();
+            
+         //  stop();
+            //delay(100);
+           d = distance();
+           delay(50);
+            if(d > 50)
+            {
+              drive();
+            } else
+            {
+              reverse();
+              delay(300);
+              cClockwise(300);  
+            }
+           /* clockwise(500);
             int r = rotate(90);
             servo.write(r);
             int time = 500;
-            while (80 > r && r > 100)
+            while (!(85 < r && r < 95))
             {
                 if (r < 90)
                 {
@@ -222,9 +240,19 @@ void controlByRobot(void)
                     servo.write(r);
                     time /= 2;
                 }
-            }
-            servo.write(90);
-            drive();
+            }*/
+            //servo.write(90);
+            //delay(1000);
+           // drive();
+       // }
+        while(d > 50)
+        {
+          d = distance();
+         // Serial.println(d);
+          delay(50);
         }
-        while(rotate(30, 5) > 50);
+        stop();
+        delay(3000);
+        d =500;
+    }
 }
