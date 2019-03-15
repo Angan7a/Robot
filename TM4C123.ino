@@ -112,10 +112,10 @@ void clockwise(int time)
 
 void cClockwise(int time)
 {
-    digitalWrite(AxIN1,1);
-    digitalWrite(AxIN1,1);
-    analogWrite(BxIN1, speed);
-    digitalWrite(BxIN2, 0);
+    digitalWrite(AxIN1, 0);
+    analogWrite(AxIN2, speed);
+    digitalWrite(BxIN1,1);
+    digitalWrite(BxIN1,1);
     delay(time);
     stop();
 }
@@ -160,6 +160,7 @@ int distance(void)
     delayMicroseconds(15);
     digitalWrite(Trig, LOW);
     digitalWrite(Echo, HIGH); 
+    delay(50);
     return pulseIn(Echo, HIGH) / 58;
 }
 void controlByWiFi(void)
@@ -200,59 +201,30 @@ void controlByWiFi(void)
 }
 void controlByRobot(void)
 {
-  int d = 500;
+  int d;
     while(1)
     {
-       // do
-       // {
-           // stop();
-            
-         //  stop();
-            //delay(100);
-           d = distance();
-           delay(50);
-            if(d > 50)
-            {
-              drive();
-            } else
-            {
-              reverse();
-              delay(300);
-              cClockwise(300);  
-            }
-           /* clockwise(500);
-            int r = rotate(90);
-            servo.write(r);
-            int time = 500;
-            while (!(85 < r && r < 95))
-            {
-                if (r < 90)
-                {
-                    clockwise(time); 
-                    r = rotate(90);
-                    servo.write(r);
-                    time /= 2;
-                }
-                if (r > 90)
-                {
-                    cClockwise(time); 
-                    r = rotate(90);
-                    servo.write(r);
-                    time /= 2;
-                }
-            }*/
-            //servo.write(90);
-            //delay(1000);
-           // drive();
-       // }
+        d = distance();
+        while (d < 50)
+        {
+          reverse();
+          delay(300);
+          cClockwise(300);
+          int r = rotate(90);
+          servo.write(r);
+          if (r > 90)
+              cClockwise(r*10);
+          else
+              Clockwise(r*10);
+              d = distance();
+        }
+        drive();
+        servo.write(90);
         while(d > 50)
         {
           d = distance();
-         // Serial.println(d);
-          delay(50);
         }
         stop();
         delay(3000);
-        d =500;
     }
 }
