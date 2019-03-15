@@ -9,7 +9,7 @@ The goal of this project is to create a traveling robot that will:
 - rotated in place in a clockwise and counterclockwise direction
 - be looking for a new direction
 
-![alt text](https://github.com/AntoniBandera/R/blob/master/r.png)
+![alt text](https://github.com/Angan7a/Robot/blob/master/picture.png)
 
 ## Bill of material
 - Texas Instruments Tiva C Series EK-TM4C123GXL - Launchpad evaluation board ([https://botland.com.pl/pl/texas-instruments/3684-texas-instruments-tiva-c-series-ek-tm4c123gxl-launchpad-evaluation-board.html](https://botland.com.pl/pl/texas-instruments/3684-texas-instruments-tiva-c-series-ek-tm4c123gxl-launchpad-evaluation-board.html))
@@ -22,22 +22,24 @@ The goal of this project is to create a traveling robot that will:
 - Some jumper wires
 
 ## Connection
-| TM4C123GXL | DRV8835    | SV90  | Logical level converter [HC-SR04] | ESP8266 | Motors|
-|:----------:|:----------:|:-----:|:---------------------------------:|:-------:|:-----:|
-| 2          | AxIN2      |       |                                   |         |       |
-| 5          |            |       | [Trig]                            |         |       |
-| 6          |            |       | [Echo]                            |         |       |
-| 7          | AxIN1      |       |                                   |         |       |
-| 8          |            |       |                                   | 5       |       |
-| 9          |            |       |                                   | 14      |       |
-| 10         |            |       |                                   | 16      |       |
-| 11         | Mode       |       |                                   |         |       |
-| 26         |            | Orange|                                   |         |       |
-| 36         | BxIN2      |       |                                   |         |       |
-| 37         | BxIN1      |       |                                   |         |       |
-|            | AOUT1      |       |                                   |         | DC1   |         
-|            | AOUT2      |       |                                   |         | DC1   |         
-|            | BOUT1      |       |                                   |         | DC2   |         
-|            | BOUT2      |       |                                   |         | DC2   |        
-| *+5V*      |*+3.3V, +6V*|*+5V*  |*+3.3V, +5V*                       |*+3.3V*  |*+6V*  |
+| TM4C123GXL | DRV8835    | SV90  | Logical level converter | HC-SR04 | ESP8266 | Motors|
+|:----------:|:----------:|:-----:|:-----------------------:|:-------:|:-------:|:-----:|
+| 2          | AxIN2      |       |                         |         |         |       |
+| 5          |            |       | TxL                     |         |         |       |
+| 6          |            |       | RxL                     |         |         |       |
+| 7          | AxIN1      |       |                         |         |         |       |
+| 8          |            |       |                         |         | 5       |       |
+| 9          |            |       |                         |         | 14      |       |
+| 10         |            |       |                         |         | 16      |       |
+| 11         | Mode       |       |                         |         |         |       |
+| 26         |            | Orange|                         |         |         |       |
+| 36         | BxIN2      |       |                         |         |         |       |
+| 37         | BxIN1      |       |                         |         |         |       |
+|            |            |       | RxH                     | Trig    |         |       |         
+|            |            |       | TxH                     | Echo    |         |       |         
+|            | AOUT1      |       |                         |         |         | DC1   |         
+|            | AOUT2      |       |                         |         |         | DC1   |         
+|            | BOUT1      |       |                         |         |         | DC2   |         
+|            | BOUT2      |       |                         |         |         | DC2   |        
+| *+5V*      |*+3.3V, +6V*|*+5V*  |*+3.3V, +5V*             |*+5V*    |*+3.3V*  |*+6V*  |
 
