@@ -41,9 +41,6 @@ void setup() {
 
 void loop() {
     controlByRobot();
-    //Serial.println("Dystance:");
-    //Serial.println(distance());
- //   delay(500);
 }
 
 
@@ -122,36 +119,28 @@ void cClockwise(int time)
 
 int rotate(int z, int step = 10)
 {
-    int min = 1800;
-    int posMin = 90;
+    int d;
     while (pos > 90 - z)
     {
         pos = pos - step;
         servo.write(pos);
-        delay(50);
-        int d = distance();
-        if (d < min)
-        {
-          min = d;
-          posMin = pos;
-        }
-        //delay(150);
-    }
-    while (pos < 90 + z)
-    {
-        pos = pos + step;
-        servo.write(pos);
-        delay(50);
-        int d = distance();
-        if (d < min)
-        {
-          min = d;
-          posMin = pos;
-        }
-        //delay(150);
-    }
-    return posMin;
+        delay(70);
+        d = distance();
+        if (d < 30) 
+            return d;
+  }
+  while (pos < 90 + z)
+  {
+      pos = pos + step;
+      servo.write(pos);
+      delay(70);
+      d = distance();
+      if (d < 30)
+           return d;
+  }
+  return d;
 }
+
 int distance(void)
 {
     digitalWrite(Trig, LOW);
@@ -199,32 +188,24 @@ void controlByWiFi(void)
         stop();
     }
 }
+
 void controlByRobot(void)
 {
-  int d;
-    while(1)
+    int d = distance();
+    while (1)
     {
-        d = distance();
-        while (d < 50)
+        while (d <= 30)
         {
-          reverse();
-          delay(300);
-          cClockwise(300);
-          int r = rotate(90);
-          servo.write(r);
-          if (r > 90)
-              cClockwise(r*10);
-          else
-              Clockwise(r*10);
-              d = distance();
+            cClockwise(300);
+            delay(150);
+            d = distance();
         }
         drive();
-        servo.write(90);
-        while(d > 50)
+        while(d > 30)
         {
-          d = distance();
+            d = rotate(60,29);
         }
         stop();
-        delay(3000);
+        delay(300);
     }
 }
